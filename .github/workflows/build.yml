@@ -10,6 +10,8 @@ on:
 jobs:
   build-java-application:
     runs-on: ubuntu-latest
+    outputs:
+        short-sha: ${{ steps.short-sha.outputs.sha }}
 
     steps:
       - uses: actions/checkout@v4
@@ -39,5 +41,41 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
   
+
+  deploy-new-image:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./terraform
+
+    steps:
+      
+        - name: Clone Repo
+          uses: actions/checkout@v4
+
+        - name: Install Terraform
+          uses: hashicorp/setup-terraform@v3
+
+        - name: Configure AWS Access keys
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            aws-region: eu-west-1
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
+
+        - name: Update New Image in User data script
+          run: sed 's/latest/${{ needs.build-java-application.outputs.short-sha }}' script.sh
+
+        - name: Initialize Terraform
+          run: terraform init
+
+        - name: Validate Terraform COnfiguration
+          run: terraform validate
+
+        - name: Deploy New App version
+          run: terraform apply --auto-approve
+
+
+
 
 

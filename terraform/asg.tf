@@ -16,20 +16,20 @@ resource "aws_launch_template" "docker_lt" {
   }
 }
 
-resource "aws_autoscaling_policy" "bat" {
-  name                   = "docker_lt-policy"
-  policy_type        = "PredictiveScaling"
-  cooldown               = 300
-  autoscaling_group_name = aws_autoscaling_group.docker_asg.name
-  predictive_scaling_configuration {
-    metric_specification {
-      target_value = 50
-      predefined_load_metric_specification {
-        predefined_metric_type = "ASGTotalCPUUtilization"
-      }
-    }
-  }
-}
+# resource "aws_autoscaling_policy" "bat" {
+#   name                   = "docker_lt-policy"
+#   policy_type        = "PredictiveScaling"
+#   cooldown               = 300
+#   autoscaling_group_name = aws_autoscaling_group.docker_asg.name
+#   predictive_scaling_configuration {
+#     metric_specification {
+#       target_value = 50
+#       predefined_load_metric_specification {
+#         predefined_metric_type = "ASGTotalCPUUtilization"
+#       }
+#     }
+#   }
+# }
 
 # Create Auto Scaling Group
 resource "aws_autoscaling_group" "docker_asg" {

@@ -10,8 +10,7 @@ on:
 jobs:
   build-java-application:
     runs-on: ubuntu-latest
-    outputs:
-        short-sha: ${{ steps.short-sha.outputs.sha }}
+
 
     steps:
       - uses: actions/checkout@v4
@@ -55,6 +54,12 @@ jobs:
 
         - name: Install Terraform
           uses: hashicorp/setup-terraform@v3
+          
+        - name: Get Short SHA value
+          uses: benjlevesque/short-sha@v3.0
+          id: short-sha
+          with:
+            length: 6
 
         - name: Configure AWS Access keys
           uses: aws-actions/configure-aws-credentials@v4
@@ -64,7 +69,7 @@ jobs:
             aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
 
         - name: Update New Image in User data script
-          run: sed 's/latest/${{ needs.build-java-application.outputs.short-sha }}' script.sh
+          run: sed 's/latest/${{ steps.short-sha.outputs.sha }}' script.sh
 
         - name: Initialize Terraform
           run: terraform init
@@ -75,7 +80,7 @@ jobs:
         - name: Deploy New App version
           run: terraform apply --auto-approve
 
-          
+
 
 
 

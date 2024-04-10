@@ -35,7 +35,7 @@ jobs:
           image: aymogul/java-task
           tags: latest, ${{ steps.short-sha.outputs.sha }}
           registry: docker.io
-          dockerfile: Dockerfile.ci
+          dockerfile: Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
   

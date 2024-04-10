@@ -69,7 +69,7 @@ jobs:
             aws-secret-access-key: ${{ secrets.SECRET_ACCESS_KEY }}
 
         - name: Update New Image in User data script
-          run: sed 's/latest/${{ steps.short-sha.outputs.sha }}' script.sh
+          run: sed 's/latest/${{ steps.short-sha.outputs.sha }}/' script.sh
 
         - name: Initialize Terraform
           run: terraform init

@@ -26,7 +26,7 @@ resource "aws_autoscaling_policy" "bat" {
     metric_specification {
       target_value = 50
       predefined_load_metric_specification {
-        predefined_metric_type = "ASGAverageCPUUtilization"
+        predefined_metric_type = "ASGTotalCPUUtilization"
       }
     }
   }

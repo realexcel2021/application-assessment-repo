@@ -19,7 +19,7 @@ resource "aws_launch_template" "docker_lt" {
 resource "aws_autoscaling_policy" "bat" {
   name                   = "docker_lt-policy"
   scaling_adjustment     = 4
-  adjustment_type        = "TargetTrackingScaling"
+  adjustment_type        = "ChangeInCapacity"
   cooldown               = 300
   autoscaling_group_name = aws_autoscaling_group.docker_asg.name
   predictive_scaling_configuration {

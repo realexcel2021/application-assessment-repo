@@ -1,10 +1,6 @@
-name: Java CI with Maven
+name: Destroy terraform infra
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
   workflow_dispatch:
 
 jobs:
@@ -42,7 +38,7 @@ jobs:
         - name: Validate Terraform COnfiguration
           run: terraform validate
 
-        - name: Deploy New App version
+        - name: Destroy all terraform infra
           run: terraform destroy --auto-approve
 
 

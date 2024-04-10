@@ -53,7 +53,6 @@ resource "aws_autoscaling_group" "docker_asg" {
 
   instance_refresh {
     strategy = "Rolling"
-
   }
 
 }
